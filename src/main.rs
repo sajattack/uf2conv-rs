@@ -53,7 +53,7 @@ fn main() -> Result<(), std::io::Error> {
     let family_id = u32::from_str_radix(
         &matches.value_of("family").unwrap()[2..], 16).unwrap_or(0x0);
     let base = u32::from_str_radix(
-        &matches.value_of("base").unwrap()[2..], 16).unwrap_or(0x0);
+        &matches.value_of("base").unwrap()[2..], 16).unwrap_or(0x2000);
 
     let uf2 = bin_to_uf2(&buffer, family_id, base);
 
