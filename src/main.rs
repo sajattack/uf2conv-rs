@@ -56,7 +56,7 @@ fn main() -> Result<(), std::io::Error> {
         &matches.value_of("base").unwrap()[2..], 16).unwrap_or(0x0);
 
     let uf2 = bin_to_uf2(&buffer, family_id, base);
-    
+
     let outpath = Path::new(matches.value_of("output").unwrap());
     let display = outpath.display();
     let mut outfile = match File::create(&outpath) {
@@ -88,23 +88,20 @@ fn bin_to_uf2(bytes: &Vec<u8>, family_id: u32, app_start_addr: u32) -> Result<Ve
             flags |= 0x2000
         }
         let header: [u32; 8] = [UF2_MAGIC_START0,
-            UF2_MAGIC_START1, 
+            UF2_MAGIC_START1,
             flags,
-            ptr + app_start_addr, 
+            ptr + app_start_addr,
             256,
             blockno,
             nblocks,
             family_id];
-        while chunk.len() < 256 {
-            chunk.push(0);
-        }
-        let mut block: Vec<u8> = Vec::new();
+        let mut block = [0u8; 512];
         for temp in header.iter() {
-            block.write_u32::<LittleEndian>(*temp)?;
+            (&mut block[..]).write_u32::<LittleEndian>(*temp)?;
         }
-        block.write(&chunk)?;
-        block.write(&datapadding)?;
-        block.write_u32::<LittleEndian>(UF2_MAGIC_END)?;
+        (&mut block[..]).write(&chunk)?;
+        (&mut block[..]).write(&datapadding)?;
+        (&mut block[..]).write_u32::<LittleEndian>(UF2_MAGIC_END)?;
         outp.write(&block)?;
     }
     Ok(outp)
