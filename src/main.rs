@@ -87,22 +87,23 @@ fn bin_to_uf2(bytes: &Vec<u8>, family_id: u32, app_start_addr: u32) -> Result<Ve
         if family_id != 0 {
             flags |= 0x2000
         }
-        let header: [u32; 8] = [UF2_MAGIC_START0,
-            UF2_MAGIC_START1,
-            flags,
-            ptr + app_start_addr,
-            256,
-            blockno,
-            nblocks,
-            family_id];
-        let mut block = [0u8; 512];
-        for temp in header.iter() {
-            (&mut block[..]).write_u32::<LittleEndian>(*temp)?;
-        }
-        (&mut block[..]).write(&chunk)?;
-        (&mut block[..]).write(&datapadding)?;
-        (&mut block[..]).write_u32::<LittleEndian>(UF2_MAGIC_END)?;
-        outp.write(&block)?;
+
+        // header
+        outp.write_u32::<LittleEndian>(UF2_MAGIC_START0)?;
+        outp.write_u32::<LittleEndian>(UF2_MAGIC_START1)?;
+        outp.write_u32::<LittleEndian>(flags)?;
+        outp.write_u32::<LittleEndian>(ptr + app_start_addr)?;
+        outp.write_u32::<LittleEndian>(256)?;
+        outp.write_u32::<LittleEndian>(blockno)?;
+        outp.write_u32::<LittleEndian>(nblocks)?;
+        outp.write_u32::<LittleEndian>(family_id)?;
+
+        // data
+        outp.write(&chunk)?;
+        outp.write(&datapadding)?;
+
+        // footer
+        outp.write_u32::<LittleEndian>(UF2_MAGIC_END)?;
     }
     Ok(outp)
 }
