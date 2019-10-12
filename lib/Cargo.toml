@@ -1,8 +1,10 @@
 [package]
 name = "uf2"
+description = "Library for working with the Microsoft's UF2 file format"
 version = "0.1.0"
 authors = ["Paul Sajna <sajattack@gmail.com>"]
 edition = "2018"
+license = "MIT"
 
 [dependencies]
 byteorder = "1.2"
