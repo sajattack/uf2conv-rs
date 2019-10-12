@@ -1,8 +1,6 @@
-[package]
-name = "uf2conv-rs"
-version = "0.1.0"
-authors = ["Paul Sajna <sajattack@gmail.com>"]
+[workspace]
 
-[dependencies]
-clap = "2.32"
-byteorder = "1.2"
+members = [
+    "bin",
+    "lib"
+]
