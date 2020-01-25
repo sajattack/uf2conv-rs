@@ -1,9 +1,14 @@
 [package]
-name = "uf2conv-rs"
+name = "uf2conv"
 version = "0.1.0"
 authors = ["Paul Sajna <sajattack@gmail.com>"]
+license = "MIT"
+description = "Tool for converting a binary file to a uf2 file"
 
 [dependencies]
 clap = "2.32"
 byteorder = "1.2"
-uf2 = { path = "../lib" }
+
+[dependencies.uf2]
+path = "../lib" 
+version = "0.1.0" 
