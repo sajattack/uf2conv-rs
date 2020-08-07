@@ -20,7 +20,7 @@ For more information try --help
 Base usage you'll want to give the --base memory address for your chip. This is where the code starts after the bootloader. In the case of embedded rust, thats found in your memory.x where you'll find  `FLASH (rx) : ORIGIN = 0x00000000+0x4000` or `FLASH (rx) : ORIGIN = 0x00000000 + 16K` Where 16K in bytes is 16384 decimal or 0x4000 hex base.
 
 ```bash
-$ uf2conv-rs pygamer_blinky_basic.bin --base 0x4000 --output pygamer_blinky_basic.uf2
+$ uf2conv pygamer_blinky_basic.bin --base 0x4000 --output pygamer_blinky_basic.uf2
 ```
 
 And you can copy that uf2 file to your embedded device's drive that appears when you enter bootloader mode.
@@ -38,5 +38,5 @@ $ cargo install uf2conv cargo-binutils
 Then in your embedded project, say [PyGamer](https://github.com/atsamd-rs/atsamd/tree/master/boards/pygamer)
 ```bash
 $ cargo objcopy --example blinky_basic --features unproven --release -- -O binary pygamer_blinky_basic.bin
-$ uf2conv-rs pygamer_blinky_basic.bin --base 0x4000 --output pygamer_blinky_basic.uf2
+$ uf2conv pygamer_blinky_basic.bin --base 0x4000 --output pygamer_blinky_basic.uf2
 ```
